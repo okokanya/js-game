@@ -1,70 +1,70 @@
 'use strict';
 
-function Vector(x = 0, y = 0) {
-  this.x = x;
-  this.y = y;
-
-  this.plus = function(vector) {
-    if (!vector instanceof Vector) throw 'Можно прибавлять к вектору только вектор типа Vector';
-    const x = this.x + vector.x;
-    const y = this.y + vector.y;
-    return new Vector(x, y);
-  }
-
-  this.times = function(number) {
-    const x = this.x * number;
-    const y = this.y * number;
-    return new Vector(x, y);
-  }
+class Vector {
+	constructor(x = 0,y = 0) {
+		this.x = x;
+		this.y = y
+	  }
+	plus(newVector) {
+		if (!(newVector instanceof Vector)) {
+			throw new Error ('Можно прибавлять к вектору только вектор типа Vector');
+		}
+		return new Vector(this.x + newVector.x, this.y + newVector.y);
+	}
+ 	times(number) {
+ 		return new Vector(this.x * number, this.y * number);
+ 	}
 }
 
-  function Actor (pos = new Vector(0, 0), size = new Vector (1, 1), speed = new Vector (0, 0)) {
-     if (!pos instanceof Vector) throw 'position error';
-     if (!size instanceof Vector) throw 'size error';
-     if (!speed instanceof Vector) throw 'speeed error';
+const start = new Vector(30, 50);
+const moveTo = new Vector(5, 10);
+const finish = start.plus(moveTo.times(2));
 
-      this.pos = pos;
-      this.size = size;
-      this.speed = speed;
-    
-      Object.defineProperty(this, "left", {
-      value: this.pos.x,
-      writable: false,
-      configurable: false
-    });
+console.log(`Исходное расположение: ${start.x}:${start.y}`);
+console.log(`Текущее расположение: ${finish.x}:${finish.y}`);
 
-      Object.defineProperty(this, "top", {
-      value: this.pos.y,
-      writable: false,
-      configurable: false
-    });
-
-      Object.defineProperty(this, "right", {
-      value: this.pos.x + this.size.x,
-      writable: false,
-      configurable: false
-    });
-
-      Object.defineProperty(this, "bottom", {
-      value: this.pos.y + this.size.y,
-      writable: false,
-      configurable: false
-    });
-    
-      Object.defineProperty(this, "type", {
-      value: 'actor',
-      writable: false,
-      configurable: false
-    });
-
-      this.isIntersect = function (object) {
-        if (!object instanceof Actor) throw 'object type error';
-        if (this.left < object.right && object.left < this.right) return true;
-        if (this.top < object.bottom && object.top < this.bottom) return true;
-        return false;
-      }
+class Actor {
+  constructor(pos = new Vector(0, 0), size = new Vector(1, 1), speed = new Vector(0, 0)) {
+    if (!(pos instanceof Vector & size instanceof Vector & speed instanceof Vector)) {
+      throw new Error("Можно передать только вектор типа Vector");
+    }
+    this.pos = pos;
+    this.size = size;
+    this.speed = speed;
   }
 
+  get type() {
+    return 'actor';
+  }
+
+  get left() {
+    return this.pos.x;
+  }
+
+  get right() {
+    return this.pos.x + this.size.x;
+  }
+
+  get top() {
+    return this.pos.y;
+  }
+
+  get bottom() {
+    return this.pos.y + this.size.y;
+  }
+
+  isIntersect(item) {
+    if (!(item  instanceof Actor)) {
+      throw new Error("Можно передать только объект типа Actor");
+    }
+    if (item === this) {
+      return false;
+    }
+    return this.top < item.bottom && this.bottom > item.top && this.left < item.right && this.right > item.left
+  }
+
+  act() {}
+}
 
 const items = new Map();
 const player = new Actor();
