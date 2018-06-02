@@ -31,6 +31,7 @@ class Actor {
     this.pos = pos;
     this.size = size;
     this.speed = speed;
+    act() {}
   }
 
   get type() {
