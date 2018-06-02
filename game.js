@@ -115,4 +115,9 @@ class Level {
     this.status = null;
     this.finishDelay = 1;
   }
+
+  isFinished() {
+		return this.status !== null && this.finishDelay < 0;
+  }
+  
 }
