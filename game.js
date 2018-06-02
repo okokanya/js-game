@@ -31,12 +31,8 @@ class Actor {
     this.pos = pos;
     this.size = size;
     this.speed = speed;
-    act() {}
   }
-
-  get type() {
-    return 'actor';
-  }
+  act() {}
 
   get left() {
     return this.pos.x;
@@ -54,8 +50,12 @@ class Actor {
     return this.pos.y + this.size.y;
   }
 
+  get type() {
+    return 'actor';
+  }
+
   isIntersect(item) {
-    if (!(item  instanceof Actor)) {
+    if (!(item instanceof Actor)) {
       throw new Error("Можно передать только объект типа Actor");
     }
     if (item === this) {
@@ -63,8 +63,6 @@ class Actor {
     }
     return this.top < item.bottom && this.bottom > item.top && this.left < item.right && this.right > item.left
   }
-
-  act() {}
 }
 
 const items = new Map();
@@ -95,4 +93,7 @@ movePlayer(10, 10);
 items.forEach(status);
 movePlayer(5, -5);
 items.forEach(status);
+
+// ----------
+
 
