@@ -124,5 +124,18 @@ class Level {
 			throw new Error('аргумент - объект типа Actor');
 		}
 		return this.actors.find(elem => newActor.isIntersect(elem));
-	}
+  }
+  
+  obstacleAt(pos, size) {
+    if (!(pos instanceof Vector) || !(size instanceof Vector)) {
+      throw new Error('Тип аргумента - Vector');
+    }
+
+    let actor = new Actor(pos, size);
+
+    if (actor.bottom >= this.height) {
+      return 'lava';
+    }
+  }
+
 }
