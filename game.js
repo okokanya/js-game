@@ -65,6 +65,10 @@ class Actor {
   }
 }
 
+
+// ** пример использования 
+
+
 // const items = new Map();
 // const player = new Actor();
 // items.set('Игрок', player);
@@ -176,7 +180,9 @@ class Level {
 		}
 	}
 }
-// --- пример ---
+
+
+// ** пример использования 
 const grid = [
   [undefined, undefined],
   ['wall', 'wall']
