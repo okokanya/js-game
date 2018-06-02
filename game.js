@@ -150,5 +150,14 @@ class Level {
       }
     }
   }
+  
+  removeActor(actor) {
+		this.actors = this.actors.filter(item => item !== actor);
+	}
+
+	noMoreActors(type) {
+		return !this.actors.some(item => item.type === type);
+  }
+  
 
 }
