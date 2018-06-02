@@ -119,5 +119,10 @@ class Level {
   isFinished() {
 		return this.status !== null && this.finishDelay < 0;
   }
-  
+	actorAt(newActor) {
+		if (!(newActor instanceof Actor)) {
+			throw new Error('аргумент - объект типа Actor');
+		}
+		return this.actors.find(elem => newActor.isIntersect(elem));
+	}
 }
