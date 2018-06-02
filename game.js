@@ -311,6 +311,7 @@ class Fireball extends Actor {
 	get type() {
 		return 'fireball';
   }
+  
 	getNextPosition(time = 1) {
 		return new Vector(this.pos.x, this.pos.y).plus(new Vector(this.speed.x * time, this.speed.y * time));
 	}
