@@ -230,3 +230,53 @@ const otherActor = level.actorAt(player);
 if (otherActor === fireball) {
 	console.log('Пользователь столкнулся с шаровой молнией');
 }
+
+class LevelParser {
+	constructor(dictionary) {
+		this.dictionary = dictionary;
+	}
+
+	actorFromSymbol(symbol) {
+		return this.dictionary[symbol];
+	}
+
+	obstacleFromSymbol(symbol) {
+		if (symbol === 'x') {
+			return 'wall';
+		}
+		if (symbol === '!') {
+			return 'lava';
+		}
+	}
+
+	createGrid(plan) {
+		return plan.map(el => {
+			return el.split('').map(elem => {
+				return this.obstacleFromSymbol(elem);
+			});
+		});
+	}
+
+	createActors(plan) {
+		const actors = [];
+		if (this.dictionary) {
+			plan.forEach((string, y) => {
+				string.split('').forEach((symbol, x) => {
+					const actor = this.actorFromSymbol(symbol);
+					if (typeof actor === 'function') {
+						let newActor = new actor(new Vector(x, y));
+						if (newActor instanceof Actor) {
+							actors.push(newActor);
+						}
+					}
+				});
+			});
+		}
+		return actors;
+	}
+
+	parse(plan) {
+		return new Level(this.createGrid(plan), this.createActors(plan));
+	}
+}
+
