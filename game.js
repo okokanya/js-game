@@ -95,5 +95,24 @@ movePlayer(5, -5);
 items.forEach(status);
 
 // ----------
+class Level {
+  constructor(grid = [], actors = []) {
+    this.grid = grid;
+    this.actors = actors;
+    this.player = this.actors.find(function(actor) {
+      return actor.type === 'player';
+    });
 
-
+    if (typeof(grid) !== 'undefined') {
+      this.height = grid.length;
+      this.width = Math.max(...grid.map(function(arr) {
+        return arr.length;
+      }));
+    } else {
+      this.height = 0;
+      this.width = 0;
+    }
+    this.status = null;
+    this.finishDelay = 1;
+  }
+}
