@@ -311,7 +311,7 @@ class Fireball extends Actor {
 	get type() {
 		return 'fireball';
   }
-  
+
 	getNextPosition(time = 1) {
 		return new Vector(this.pos.x, this.pos.y).plus(new Vector(this.speed.x * time, this.speed.y * time));
 	}
@@ -343,3 +343,100 @@ class Fireball extends Actor {
 // console.log(`Текущая скорость: ${ball.speed.x}: ${ball.speed.y}`);
 
 //  Конец примера
+class HorizontalFireball extends Fireball {
+	constructor(pos) {
+		super(pos, new Vector(2, 0));
+	}
+}
+class VerticalFireball extends Fireball {
+	constructor(pos) {
+		super(pos, new Vector(0, 2));
+	}
+}
+
+class FireRain extends Fireball {
+		constructor(coords) {
+			super(coords, new Vector(0, 3));
+			this.startPos = coords;
+		}
+		handleObstacle() {
+				this.pos = this.startPos;
+		}
+}
+class Coin extends Actor {
+  constructor(pos) {
+    let size = new Vector(0.6, 0.6);
+    let delta = new Vector(0.2, 0.1);
+    super(pos, size);
+
+    this.pos = this.pos.plus(delta);
+    this.startPos = new Vector(this.pos.x, this.pos.y);
+
+    this.springSpeed = 8;
+    this.springDist = 0.07;
+    this.spring = Math.random() * 2 * Math.PI;
+  }
+
+  get type() {
+    return 'coin';
+  }
+
+  updateSpring(time = 1) {
+    this.spring += this.springSpeed * time;
+  }
+  getSpringVector() {
+		return new Vector(0, Math.sin(this.spring) * this.springDist);
+	}
+
+	getNextPosition(time = 1) {
+		this.updateSpring(time);
+		return this.posCoin.plus(this.getSpringVector());
+	}
+
+	act(time) {
+		this.pos = this.getNextPosition(time);
+	}
+}
+class Player extends Actor {
+  constructor(pos) {
+    let size = new Vector(0.8, 1.5);
+    let delta = new Vector(0, -0.5);
+
+    super(pos, size);
+    this.pos = this.pos.plus(delta);
+  }
+
+  get type() {
+    return 'player';
+  }
+}
+
+const schemas = [
+  [
+    '         ',
+    '         ',
+    '    =    ',
+    '       o ',
+    '     !xxx',
+    ' @       ',
+    'xxx!     ',
+    '         '
+  ],
+  [
+    '      v  ',
+    '    v    ',
+    '  v      ',
+    '        o',
+    '        x',
+    '@   x    ',
+    'x        ',
+    '         '
+  ]
+];
+const actorDict = {
+  '@': Player,
+  'v': FireRain
+}
+const parser = new LevelParser(actorDict);
+runGame(schemas, parser, DOMDisplay)
+  .then(() => console.log('Вы выиграли приз!'));
