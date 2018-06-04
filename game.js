@@ -7,7 +7,7 @@ class Vector {
 	}
 	plus(newVector) {
 		if (!(newVector instanceof Vector)) {
-			throw new Error('Можно прибавлять к вектору только вектор типа Vector');
+			throw new Error('Можно прибавлять только вектор типа Vector');
 		}
 		return new Vector(this.x + newVector.x, this.y + newVector.y);
 	}
