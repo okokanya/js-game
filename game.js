@@ -229,11 +229,9 @@ class LevelParser {
   }
 
   actorFromSymbol(symbol) {
-    if (symbol === undefined) {
-      return undefined;
-    } else {
-      return this.dictionary[symbol];
-    }}
+    if (symbol === undefined) return;
+    return this.dictionary[symbol];
+  }
 
   obstacleFromSymbol(symbol) {
     if (symbol === 'x') {
@@ -411,6 +409,7 @@ const actorDict = {
   'v': FireRain,
   'o': Coin
 }
+
 const parser = new LevelParser(actorDict);
 loadLevels()
   .then(result => {
