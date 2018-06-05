@@ -117,25 +117,13 @@ class Actor {
 //  Конец примера
 class Level {
   constructor(grid = [], actors = []) {
-    this.grid = grid;
-    this.actors = actors;
-    this.player = this.actors.find(function(actor) {
-      return actor.type === 'player';
-    });
-
-    if (typeof grid !== 'undefined') {
-      this.height = grid.length;
-      this.width = Math.max(
-        ...grid.map(function(arr) {
-          return arr.length;
-        })
-      );
-    } else {
-      this.height = 0;
-      this.width = 0;
-    }
+    this.grid = grid.slice();
+    this.actors = actors.slice();
     this.status = null;
     this.finishDelay = 1;
+    this.height = this.grid.length;
+    this.width = Math.max(0, ...grid.map(el => el.length));
+    this.player = this.actors.find(el => el.type === 'player');
   }
 
   isFinished() {
@@ -241,8 +229,9 @@ class LevelParser {
   }
 
   actorFromSymbol(symbol) {
-    return this.dictionary[symbol];
-  }
+    if (symbol === undefined || this.list === undefined) {
+      return undefined;
+    }}
 
   obstacleFromSymbol(symbol) {
     if (symbol === 'x') {
@@ -412,35 +401,17 @@ class Player extends Actor {
   }
 }
 
-// const schemas = [
-//   [
-//     '         ',
-//     '         ',
-//     '    =    ',
-//     '       o ',
-//     '     !xxx',
-//     ' @       ',
-//     'xxx!     ',
-//     '         ',
-//   ],
-//   [
-//     '      v  ',
-//     '    v    ',
-//     '  v      ',
-//     '        o',
-//     '        x',
-//     '@   x    ',
-//     'x        ',
-//     '         ',
-//   ],
-// ];
-// const actorDict = {
-//   '@': Player,
-//   v: FireRain,
-// };
-// const parser = new LevelParser(actorDict);
-// runGame(schemas, parser, DOMDisplay).then(() =>
-//   console.log('Вы выиграли приз!')
-// );
-
-
+const actorDict = {
+  '@': Player,
+  '=': HorizontalFireball,
+  '|': VerticalFireball,
+  'v': FireRain,
+  'o': Coin
+}
+const parser = new LevelParser(actorDict);
+loadLevels()
+  .then(result => {
+      let schemas = JSON.parse(result);
+      runGame(schemas, parser, DOMDisplay)
+      .then(() => alert('Вы выиграли приз!'))
+  });
