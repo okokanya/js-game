@@ -229,8 +229,10 @@ class LevelParser {
   }
 
   actorFromSymbol(symbol) {
-    if (symbol === undefined || this.list === undefined) {
+    if (symbol === undefined) {
       return undefined;
+    } else {
+      return this.dictionary[symbol];
     }}
 
   obstacleFromSymbol(symbol) {
