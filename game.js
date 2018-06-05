@@ -154,8 +154,10 @@ class Level {
     }
     for (let y = Math.floor(actor.top); y < Math.ceil(actor.bottom); y++) {
       for (let x = Math.floor(actor.left); x < Math.ceil(actor.right); x++) {
-        if (typeof (this.grid[x][y] !== 'undefined')) {
-          return this.grid[x][y];
+        if (typeof(this.grid[x]) !== 'undefined') {
+          if (typeof(this.grid[x][y]) !== 'undefined') {
+            return this.grid[x][y];
+          }
         }
       }
     }
@@ -412,8 +414,13 @@ const actorDict = {
 
 const parser = new LevelParser(actorDict);
 loadLevels()
-  .then(result => {
-      let schemas = JSON.parse(result);
-      runGame(schemas, parser, DOMDisplay)
-      .then(() => alert('Вы выиграли приз!'))
-  });
+  .then(schemas => runGame(JSON.parse(schemas), parser, DOMDisplay))
+  .then(() => alert('Вы выиграли приз!'))
+  .catch(err => alert.log(err));
+// const parser = new LevelParser(actorDict);
+// loadLevels().then(levelsStr => {
+//   const levels = JSON.parse(levelsStr);
+//   return runGame(levels, parser, DOMDisplay);
+// }).then(() => {
+//   alert('Вы выиграли приз')
+// });
