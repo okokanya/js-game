@@ -146,9 +146,10 @@ class Level {
     if (actor.bottom >= this.height) {
       return 'lava';
     }
-    if (actor.left < 0 || actor.top < 0 || actor.right >= this.width) {
+    if (actor.left < 0 || actor.top < 0 || actor.right > this.width) {
       return 'wall';
     }
+
     if (typeof this.grid === 'undefined') {
       return;
     }
