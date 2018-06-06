@@ -112,7 +112,7 @@ class Level {
 
     for (let y = Top; y < Bottom; y++) {
       for (let x = Left ; x < Right ; x++) {                
-        const next = this.grid[y][x];
+        const next = this.grid[y] && this.grid[y][x];
         if (next) {
           return next;
         }
