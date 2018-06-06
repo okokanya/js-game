@@ -15,17 +15,6 @@ class Vector {
     return new Vector(this.x * number, this.y * number);
   }
 }
-//  Пример использования
-
-// const start = new Vector(30, 50);
-// const moveTo = new Vector(5, 10);
-// const finish = start.plus(moveTo.times(2));
-
-// console.log(`Исходное расположение: ${start.x}:${start.y}`);
-// console.log(`Текущее расположение: ${finish.x}:${finish.y}`);
-
-//  Конец примера
-
 class Actor {
   constructor(
     pos = new Vector(0, 0),
@@ -83,38 +72,6 @@ class Actor {
   }
 }
 
-// Пример использования
-
-// const items = new Map();
-// const player = new Actor();
-// items.set('Игрок', player);
-// items.set('Первая монета', new Actor(new Vector(10, 10)));
-// items.set('Вторая монета', new Actor(new Vector(15, 5)));
-
-// function position(item) {
-//   return ['left', 'top', 'right', 'bottom']
-//     .map(side => `${side}: ${item[side]}`)
-//     .join(', ');
-// }
-
-// function movePlayer(x, y) {
-//   player.pos = player.pos.plus(new Vector(x, y));
-// }
-
-// function status(item, title) {
-//   console.log(`${title}: ${position(item)}`);
-//   if (player.isIntersect(item)) {
-//     console.log(`Игрок подобрал ${title}`);
-//   }
-// }
-
-// items.forEach(status);
-// movePlayer(10, 10);
-// items.forEach(status);
-// movePlayer(5, -5);
-// items.forEach(status);
-
-//  Конец примера
 class Level {
   constructor(grid = [], actors = []) {
     this.grid = grid.slice();
@@ -140,25 +97,24 @@ class Level {
     if (!(pos instanceof Vector) || !(size instanceof Vector)) {
       throw new Error('Тип аргумента - Vector');
     }
-
-    let actor = new Actor(pos, size);
-
-    if (actor.bottom >= this.height) {
-      return 'lava';
-    }
-    if (actor.left < 0 || actor.top < 0 || actor.right > this.width) {
+    
+    if (pos.x < 0 || pos.y < 0 || pos.x + size.x >= this.width) {
       return 'wall';
     }
-
-    if (typeof this.grid === 'undefined') {
-      return;
+    if(pos.y + size.y >= this.height) {
+      return 'lava';
     }
-    for (let y = Math.floor(actor.top); y < Math.ceil(actor.bottom); y++) {
-      for (let x = Math.floor(actor.left); x < Math.ceil(actor.right); x++) {
-        if (typeof(this.grid[x]) !== 'undefined') {
-          if (typeof(this.grid[x][y]) !== 'undefined') {
-            return this.grid[x][y];
-          }
+
+    let Top = Math.floor(pos.y),
+    Bottom = Math.ceil(pos.y + size.y),
+    Left = Math.floor(pos.x),
+    Right = Math.ceil(pos.x + size.x);
+
+    for (let y = Top; y < Bottom; y++) {
+      for (let x = Left ; x < Right ; x++) {                
+        const next = this.grid[y][x];
+        if (next) {
+          return next;
         }
       }
     }
@@ -189,43 +145,6 @@ class Level {
     }
   }
 }
-
-//Пример использования
-
-// const grid = [[undefined, undefined], ['wall', 'wall']];
-// function MyCoin(title) {
-//  this.type = 'coin';
-//  this.title = title;
-// }
-// MyCoin.prototype = Object.create(Actor);
-// MyCoin.constructor = MyCoin;
-
-// const goldCoin = new MyCoin('Золото');
-// const bronzeCoin = new MyCoin('Бронза');
-// const player = new Actor();
-// const fireball = new Actor();
-
-// const level = new Level(grid, [goldCoin, bronzeCoin, player, fireball]);
-
-// level.playerTouched('coin', goldCoin);
-// level.playerTouched('coin', bronzeCoin);
-
-// if (level.noMoreActors('coin')) {
-//  console.log('Все монеты собраны');
-//  console.log(`Статус игры: ${level.status}`);
-// }
-
-// const obstacle = level.obstacleAt(new Vector(1, 1), player.size);
-// if (obstacle) {
-//  console.log(`На пути препятствие: ${obstacle}`);
-// }
-
-// const otherActor = level.actorAt(player);
-// if (otherActor === fireball) {
-//  console.log('Пользователь столкнулся с шаровой молнией');
-// }
-
-//  Конец примера
 class LevelParser {
   constructor(dictionary) {
     this.dictionary = dictionary;
@@ -276,25 +195,6 @@ class LevelParser {
   }
 }
 
-// Пример использования
-// const plan = [
-//   ' @ ',
-//   'x!x'
-// ];
-
-// const actorsDict = Object.create(null);
-// actorsDict['@'] = Actor;
-
-// const parser = new LevelParser(actorsDict);
-// const level = parser.parse(plan);
-
-// level.grid.forEach((line, y) => {
-//   line.forEach((cell, x) => console.log(`(${x}:${y}) ${cell}`));
-// });
-
-// level.actors.forEach(actor => console.log(`(${actor.pos.x}:${actor.pos.y}) ${actor.type}`));
-//  Конец примера
-
 class Fireball extends Actor {
   constructor(pos = new Vector(0, 0), speed = new Vector(0, 0)) {
     super(pos, new Vector(1, 1), speed);
@@ -308,9 +208,11 @@ class Fireball extends Actor {
       new Vector(this.speed.x * time, this.speed.y * time)
     );
   }
+
   handleObstacle() {
     this.speed = this.speed.times(-1);
   }
+
   act(time, level) {
     let newPosition = this.getNextPosition(time);
     if (level.obstacleAt(newPosition, this.size)) {
@@ -321,21 +223,6 @@ class Fireball extends Actor {
   }
 }
 
-// Пример использования
-
-// const time = 5;
-// const speed = new Vector(1, 0);
-// const position = new Vector(5, 5);
-
-// const ball = new Fireball(position, speed);
-
-// const nextPosition = ball.getNextPosition(time);
-// console.log(`Новая позиция: ${nextPosition.x}: ${nextPosition.y}`);
-
-// ball.handleObstacle();
-// console.log(`Текущая скорость: ${ball.speed.x}: ${ball.speed.y}`);
-
-//  Конец примера
 class HorizontalFireball extends Fireball {
   constructor(pos) {
     super(pos, new Vector(2, 0));
@@ -418,10 +305,4 @@ loadLevels()
   .then(schemas => runGame(JSON.parse(schemas), parser, DOMDisplay))
   .then(() => alert('Вы выиграли приз!'))
   .catch(err => alert.log(err));
-// const parser = new LevelParser(actorDict);
-// loadLevels().then(levelsStr => {
-//   const levels = JSON.parse(levelsStr);
-//   return runGame(levels, parser, DOMDisplay);
-// }).then(() => {
-//   alert('Вы выиграли приз')
-// });
+
