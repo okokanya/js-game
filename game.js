@@ -133,6 +133,7 @@ class Level {
       this.status = 'lost';
     }
 
+    
     if (typeString === 'coin') {
       this.removeActor(actorTouch);
       if (this.noMoreActors('coin')) {
@@ -276,7 +277,9 @@ class Coin extends Actor {
 }
 class Player extends Actor {
   constructor(pos) {
-    let size = new Vector(0.8, 1.5);
+    // let size = new Vector(0.8, 1.5); -- original size of player
+
+    let size = new Vector(0.8, 0.8);
     let delta = new Vector(0, -0.5);
 
     super(pos, size);

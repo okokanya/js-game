@@ -45,13 +45,13 @@ hidden {
 }
 
 .player {
-  background-image: url(https://i.lensdump.com/i/8MJ4VD.png);
-  background-size: cover;
+  background-image: url(https://emojipedia-us.s3.amazonaws.com/thumbs/240/facebook/138/fox-face_1f98a.png);
+  background-size: contain;
 }
 
 .lost .player {
-  background-image: url(https://i.lensdump.com/i/8MJKvq.png);
-  background-size: cover;
+  background-image: url(https://emojipedia-us.s3.amazonaws.com/thumbs/240/apple/129/skull-and-crossbones_2620.png);
+  background-size: contain;
 }
 
 .won .player {
