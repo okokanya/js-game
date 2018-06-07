@@ -30,9 +30,9 @@ hidden {
 }
 
 .wall {
-  background-image: url(http://backgroundcheckall.com/wp-content/uploads/2017/12/marmor-background-10.jpg);  /* background: rgb(88, 125, 80); */
-  background-attachment: fixed;
-  background-repeat: round;
+  background-image: url(https://emojipedia-us.s3.amazonaws.com/thumbs/240/apple/129/cloud_2601.png);  /* background: rgb(88, 125, 80); */
+  background-size: contain;
+
 }
 
 .actor {
@@ -45,11 +45,13 @@ hidden {
 }
 
 .player {
-  background: rgb(64, 64, 64);
+  background-image: url(https://i.lensdump.com/i/8MJ4VD.png);
+  background-size: cover;
 }
 
 .lost .player {
-  background: rgb(160, 64, 64);
+  background-image: url(https://i.lensdump.com/i/8MJKvq.png);
+  background-size: cover;
 }
 
 .won .player {
