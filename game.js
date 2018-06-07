@@ -23,8 +23,8 @@ class Actor {
   ) {
     if (
       !(
-        (pos instanceof Vector) &
-        (size instanceof Vector) &
+        (pos instanceof Vector) &&
+        (size instanceof Vector) &&
         (speed instanceof Vector)
       )
     ) {
@@ -112,10 +112,8 @@ class Level {
 
     for (let y = Top; y < Bottom; y++) {
       for (let x = Left ; x < Right ; x++) {                
-        const next = this.grid[y] && this.grid[y][x];
-        if (next) {
-          return next;
-        }
+        const obstacle = this.grid[y] && this.grid[y][x];
+        if (obstacle) return obstacle;
       }
     }
   }
@@ -129,9 +127,7 @@ class Level {
   }
 
   playerTouched(typeString, actorTouch) {
-    if (this.status !== null) {
-      return;
-    }
+    if (this.status) return;
 
     if (typeString === 'lava' || typeString === 'fireball') {
       this.status = 'lost';

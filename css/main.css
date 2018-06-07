@@ -13,11 +13,16 @@ hidden {
 }
 
 .fireball {
-  background: rgb(255, 100, 100);
+  background-image: url(https://emojipedia-us.s3.amazonaws.com/thumbs/240/apple/129/high-voltage-sign_26a1.png);
+  background-size: contain;
+  /* background: rgb(255, 100, 100); */
 }
 
 .lava {
-  background: rgb(255, 100, 100);
+  background-image: url(https://emojipedia-us.s3.amazonaws.com/thumbs/240/apple/129/fire_1f525.png);
+  background-size: contain;
+  
+  /* background: rgb(255, 100, 100); */
 }
 
 .elevator {
@@ -25,7 +30,9 @@ hidden {
 }
 
 .wall {
-  background: white;
+  background-image: url(http://backgroundcheckall.com/wp-content/uploads/2017/12/marmor-background-10.jpg);  /* background: rgb(88, 125, 80); */
+  background-attachment: fixed;
+  background-repeat: round;
 }
 
 .actor {
@@ -33,7 +40,8 @@ hidden {
 }
 
 .coin {
-  background: rgb(241, 229, 89);
+  background-image: url(https://emojipedia-us.s3.amazonaws.com/thumbs/240/apple/129/glowing-star_1f31f.png);
+  background-size: contain;
 }
 
 .player {
