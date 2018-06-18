@@ -257,6 +257,7 @@ class Coin extends Actor {
   }
 
   getNextPosition(time = 1) {
+    this.updateSpring(time);
     return this.startPos.plus(this.getSpringVector());
   }
 
@@ -266,7 +267,7 @@ class Coin extends Actor {
 }
 class Player extends Actor {
   constructor(pos = new Vector(0, 0)) {
-    let size = new Vector(0.8, 1.5);
+    let size = new Vector(0.8, 0.8);
     // let size = new Vector(0.8, 0.8);
     let delta = new Vector(0, -0.5);
 
