@@ -17,7 +17,7 @@ describe('Класс Player', () => {
     it('Создает объект размером 0,8:1,5', () => {
       const player = new Player();
 
-      expect(player.size).to.eql(new Vector(0.8, 1.5));
+      expect(player.size).to.eql(new Vector(0.8, 0.8));
     });
 
     it('Имеет свойство type, равное player', () => {

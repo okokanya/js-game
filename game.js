@@ -214,12 +214,12 @@ class Fireball extends Actor {
 }
 
 class HorizontalFireball extends Fireball {
-  constructor(pos = Vector(0, 0)) {
+  constructor(pos = new Vector(0, 0)) {
     super(pos, new Vector(2, 0));
   }
 }
 class VerticalFireball extends Fireball {
-  constructor(pos = Vector(0, 0)) {
+  constructor(pos = new Vector(0, 0)) {
     super(pos, new Vector(0, 2));
   }
 }
@@ -234,7 +234,7 @@ class FireRain extends Fireball {
   }
 }
 class Coin extends Actor {
-  constructor(pos) {
+  constructor(pos = new Vector(0, 0)) {
     const size = new Vector(0.6, 0.6);
     const delta = new Vector(0.2, 0.1);
     super(pos.plus(delta), size);
@@ -265,9 +265,9 @@ class Coin extends Actor {
   }
 }
 class Player extends Actor {
-  constructor(pos) {
-    // let size = new Vector(0.8, 1.5); -- original size of player
-    let size = new Vector(0.8, 0.8);
+  constructor(pos = new Vector(0, 0)) {
+    let size = new Vector(0.8, 1.5);
+    // let size = new Vector(0.8, 0.8);
     let delta = new Vector(0, -0.5);
 
     super(pos.plus(delta), size)
