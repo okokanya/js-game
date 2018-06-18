@@ -267,9 +267,8 @@ class Coin extends Actor {
 }
 class Player extends Actor {
   constructor(pos = new Vector(0, 0)) {
-    let size = new Vector(0.8, 0.8);
-    // let size = new Vector(0.8, 0.8);
-    let delta = new Vector(0, -0.5);
+    const size = new Vector(0.8, 0.8);
+    const delta = new Vector(0, -0.5);
 
     super(pos.plus(delta), size)
   }
