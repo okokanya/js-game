@@ -105,9 +105,6 @@ class Level {
       return 'lava';
     }
 
-    // лучше не объявлять переменные через запятую
-    // переменные пишутся camelCase
-    // если знанчение присваивается переменной один раз, то лучше использвоать const
     let Top = Math.floor(pos.y),
     Bottom = Math.ceil(pos.y + size.y),
     Left = Math.floor(pos.x),
@@ -115,10 +112,7 @@ class Level {
 
     for (let y = Top; y < Bottom; y++) {
       for (let x = Left ; x < Right ; x++) {                
-        // лучше проверять целостность в конструкторе, если это нужно,
-        // а дальше по коду не делать таких проверок
         const obstacle = this.grid[y] && this.grid[y][x];
-        // фигурные скобки лучше не опускать
         if (obstacle) return obstacle;
       }
     }
@@ -133,7 +127,6 @@ class Level {
   }
 
   playerTouched(typeString, actorTouch) {
-    // фигурные скобки лучше не опускать
     if (this.status) return;
 
     if (typeString === 'lava' || typeString === 'fireball') {
@@ -150,14 +143,11 @@ class Level {
   }
 }
 class LevelParser {
-  // личше добавить значение по-умолчанию
   constructor(dictionary) {
-    // раз в Level вы создаёте копии массивов, тут тоже не мешало бы
     this.dictionary = dictionary;
   }
 
   actorFromSymbol(symbol) {
-    // лишняя проверка
     if (symbol === undefined) return;
     return this.dictionary[symbol];
   }
@@ -172,8 +162,6 @@ class LevelParser {
   }
 
   createGrid(plan) {
-    // можно использовать короткую форму записи стрелочных функций
-    // без фигурных скобок и return
     return plan.map(el => {
       return el.split('').map(elem => {
         return this.obstacleFromSymbol(elem);
@@ -183,13 +171,11 @@ class LevelParser {
 
   createActors(plan) {
     const actors = [];
-    // лучше сделать так, чтобы после создания объекта он был валиден
     if (this.dictionary) {
       plan.forEach((string, y) => {
         string.split('').forEach((symbol, x) => {
           const actor = this.actorFromSymbol(symbol);
           if (typeof actor === 'function') {
-            // const
             let newActor = new actor(new Vector(x, y));
             if (newActor instanceof Actor) {
               actors.push(newActor);
@@ -215,7 +201,6 @@ class Fireball extends Actor {
   }
 
   getNextPosition(time = 1) {
-    // перемудрили, нужно упростить
     return new Vector(this.pos.x, this.pos.y).plus(
       new Vector(this.speed.x * time, this.speed.y * time)
     );
@@ -226,7 +211,6 @@ class Fireball extends Actor {
   }
 
   act(time, level) {
-    // const
     let newPosition = this.getNextPosition(time);
     if (level.obstacleAt(newPosition, this.size)) {
       this.handleObstacle();
@@ -237,13 +221,11 @@ class Fireball extends Actor {
 }
 
 class HorizontalFireball extends Fireball {
-  // можно добавить значение по-умолчанию
   constructor(pos) {
     super(pos, new Vector(2, 0));
   }
 }
 class VerticalFireball extends Fireball {
-  // можно добавить значение по-умолчанию
   constructor(pos) {
     super(pos, new Vector(0, 2));
   }
@@ -260,12 +242,10 @@ class FireRain extends Fireball {
 }
 class Coin extends Actor {
   constructor(pos) {
-    // const
     let size = new Vector(0.6, 0.6);
     let delta = new Vector(0.2, 0.1);
     super(pos, size);
 
-    // pos должен задаваться через родительский конструктор
     this.pos = this.pos.plus(delta);
     this.startPos = new Vector(this.pos.x, this.pos.y);
 
@@ -286,7 +266,6 @@ class Coin extends Actor {
   }
 
   getNextPosition(time = 1) {
-    // лишнее создание объекта
     let newPosition = new Vector(this.startPos.x, this.startPos.y);
     this.updateSpring(time);
     return newPosition.plus(this.getSpringVector());
@@ -300,7 +279,6 @@ class Player extends Actor {
   constructor(pos) {
     // let size = new Vector(0.8, 1.5); -- original size of player
 
-    // см. выше
     let size = new Vector(0.8, 0.8);
     let delta = new Vector(0, -0.5);
 
